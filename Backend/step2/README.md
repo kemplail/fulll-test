@@ -2,25 +2,25 @@
 
 ## Install dependencies
 
-```
+```sh
 npm i
 ```
 
 ## Run the tests
 
-```
+```sh
 npm test
 ```
 
 ## Build the app
 
-```
+```sh
 npm run build
 ```
 
 ## Commands
 
-```
+```sh
 # Run a command :
 npm run exec <command>
 
@@ -41,7 +41,7 @@ help
 
 ## Commands examples
 
-```
+```sh
 # Create a fleet
 npm run exec create 1
 
@@ -53,5 +53,5 @@ npm run exec register-vehicle 1 AB-126-FD
 info: The vehicle with the plate number AB-126-FD has been registered in the fleet with the ID 1 !
 
 # Localize the vehicle with plate number AB-126-FD at location { lat: 10; lng: 10 }
-info: The vehicle with the plate number AB-126-FD has been parked at the following location: [ lat: 10 ; lng: 10 ] !
+info: The vehicle with the plate number AB-126-FD has been parked at the following location: { lat: 10, lng: 10 } !
 ```

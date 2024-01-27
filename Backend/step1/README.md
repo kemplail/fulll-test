@@ -2,12 +2,12 @@
 
 ## Install dependencies
 
-```
+```sh
 npm i
 ```
 
 ## Run the tests
 
-```
+```sh
 npm test
 ```
