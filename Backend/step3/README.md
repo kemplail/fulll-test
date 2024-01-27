@@ -21,8 +21,8 @@ We could first define a job that allows the project to be built and tested. It w
 1. Checkout the repo code
 2. Setup the node.js environment
 3. Install dependencies
-4. Build the app
-5. Run the tests
+4. Run the tests
+5. Build the app
 
 You can find an example CI workflow for our application here: .github/workflows/ci.yml
 
