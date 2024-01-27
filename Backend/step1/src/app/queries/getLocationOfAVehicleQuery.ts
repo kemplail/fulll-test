@@ -1,3 +1,3 @@
 export class GetLocationOfAVehicleQuery {
-  constructor(public plateNumber: string) {}
+    constructor(public plateNumber: string) {}
 }

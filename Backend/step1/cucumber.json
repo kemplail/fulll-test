@@ -1,8 +1,8 @@
 {
-  "default": {
-    "publishQuiet": true,
-    "paths": ["features/"],
-    "require": ["features/step_definitions/*.ts"],
-    "requireModule": ["ts-node/register"]
-  }
+    "default": {
+        "publishQuiet": true,
+        "paths": ["features/"],
+        "require": ["features/step_definitions/*.ts"],
+        "requireModule": ["ts-node/register"]
+    }
 }

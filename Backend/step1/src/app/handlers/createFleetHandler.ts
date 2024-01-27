@@ -1,19 +1,19 @@
-import { Fleet } from "../../domain/fleet";
-import { FleetRepository, fleetRepository } from "../../infra/fleetRepository";
-import { CreateFleetCommand } from "../commands/createFleetCommand";
+import { Fleet } from '../../domain/fleet'
+import { FleetRepository, fleetRepository } from '../../infra/fleetRepository'
+import { CreateFleetCommand } from '../commands/createFleetCommand'
 
 export class CreateFleetHandler {
-  private fleetRepository: FleetRepository;
+    private fleetRepository: FleetRepository
 
-  constructor(fleetRepository: FleetRepository) {
-    this.fleetRepository = fleetRepository;
-  }
+    constructor(fleetRepository: FleetRepository) {
+        this.fleetRepository = fleetRepository
+    }
 
-  handle(command: CreateFleetCommand) {
-    const fleet = new Fleet(command.ownerId);
+    handle(command: CreateFleetCommand) {
+        const fleet = new Fleet(command.ownerId)
 
-    return this.fleetRepository.save(fleet);
-  }
+        return this.fleetRepository.save(fleet)
+    }
 }
 
-export const createFleetHandler = new CreateFleetHandler(fleetRepository);
+export const createFleetHandler = new CreateFleetHandler(fleetRepository)

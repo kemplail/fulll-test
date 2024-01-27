@@ -1,11 +1,11 @@
 export class Model {
-  private id: number;
+    private id: number
 
-  constructor(id: number) {
-    this.id = id;
-  }
+    constructor(id: number) {
+        this.id = id
+    }
 
-  getId(): number {
-    return this.id;
-  }
+    getId(): number {
+        return this.id
+    }
 }

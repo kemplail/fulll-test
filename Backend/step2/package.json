@@ -17,6 +17,8 @@
         "exec": "node dist/app.js",
         "test": "cucumber-js --profile default",
         "test-critical": "cucumber-js --profile critical",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
         "lint": "eslint . --ext .ts"
     },
     "dependencies": {

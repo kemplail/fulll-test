@@ -1,30 +1,30 @@
 import {
-  VehicleRepository,
-  vehicleRepository,
-} from "../../infra/vehicleRepository";
-import { ParkVehicleIntoLocationCommand } from "../commands/parkVehicleIntoLocationCommand";
+    VehicleRepository,
+    vehicleRepository,
+} from '../../infra/vehicleRepository'
+import { ParkVehicleIntoLocationCommand } from '../commands/parkVehicleIntoLocationCommand'
 
 export class ParkVehicleIntoLocationHandler {
-  private vehicleRepository: VehicleRepository;
+    private vehicleRepository: VehicleRepository
 
-  constructor(vehicleRepository: VehicleRepository) {
-    this.vehicleRepository = vehicleRepository;
-  }
-
-  async handle(command: ParkVehicleIntoLocationCommand) {
-    const vehicle = await this.vehicleRepository.findByPlateNumber(
-      command.plateNumber
-    );
-
-    if (!vehicle) {
-      throw new Error("Unable to retrieve the requested vehicle");
+    constructor(vehicleRepository: VehicleRepository) {
+        this.vehicleRepository = vehicleRepository
     }
 
-    vehicle.setLocation(command.location);
+    async handle(command: ParkVehicleIntoLocationCommand) {
+        const vehicle = await this.vehicleRepository.findByPlateNumber(
+            command.plateNumber
+        )
 
-    return this.vehicleRepository.save(vehicle);
-  }
+        if (!vehicle) {
+            throw new Error('Unable to retrieve the requested vehicle')
+        }
+
+        vehicle.setLocation(command.location)
+
+        return this.vehicleRepository.save(vehicle)
+    }
 }
 
 export const parkVehicleIntoLocationHandler =
-  new ParkVehicleIntoLocationHandler(vehicleRepository);
+    new ParkVehicleIntoLocationHandler(vehicleRepository)

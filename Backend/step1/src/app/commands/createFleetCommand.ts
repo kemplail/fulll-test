@@ -1,3 +1,3 @@
 export class CreateFleetCommand {
-  constructor(public ownerId: number) {}
+    constructor(public ownerId: number) {}
 }
