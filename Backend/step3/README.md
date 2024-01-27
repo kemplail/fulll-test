@@ -24,6 +24,6 @@ We could first define a job that allows the project to be built and tested. It w
 4. Build the app
 5. Run the tests
 
-You can find an example CI workflow for our application here: ...
+You can find an example CI workflow for our application here: .github/workflows/ci.yml
 
 We could also define other jobs, making it possible to automate the deployment of the built application on a pre-prod or prod environment.
