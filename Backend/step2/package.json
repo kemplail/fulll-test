@@ -14,7 +14,7 @@
     },
     "scripts": {
         "build": "npx tsc",
-        "exec": "node dist/app.js",
+        "exec": "node dist/src/app.js",
         "test": "cucumber-js --profile default",
         "test-critical": "cucumber-js --profile critical",
         "format:check": "prettier --check .",
