@@ -3,4 +3,4 @@ import { Repository } from './repository'
 
 export class FleetRepository extends Repository<Fleet> {}
 
-export const fleetRepository = new FleetRepository()
+export const fleetRepository: FleetRepository = new FleetRepository()

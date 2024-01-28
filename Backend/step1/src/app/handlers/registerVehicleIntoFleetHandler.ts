@@ -1,3 +1,4 @@
+import { Fleet } from '../../domain/fleet'
 import { Vehicle } from '../../domain/vehicle'
 import { FleetRepository, fleetRepository } from '../../infra/fleetRepository'
 import {
@@ -19,10 +20,11 @@ export class RegisterVehicleIntoFleetHandler {
     }
 
     async handle(command: RegisterVehicleIntoFleetCommand) {
-        let vehicle = await this.vehicleRepository.findByPlateNumber(
-            command.plateNumber
+        let vehicle: Vehicle | undefined =
+            await this.vehicleRepository.findByPlateNumber(command.plateNumber)
+        const fleet: Fleet | undefined = await this.fleetRepository.findById(
+            command.fleetId
         )
-        const fleet = await this.fleetRepository.findById(command.fleetId)
 
         if (!vehicle) {
             vehicle = new Vehicle(command.plateNumber)
@@ -39,5 +41,5 @@ export class RegisterVehicleIntoFleetHandler {
     }
 }
 
-export const registerVehicleIntoFleetHandler =
+export const registerVehicleIntoFleetHandler: RegisterVehicleIntoFleetHandler =
     new RegisterVehicleIntoFleetHandler(vehicleRepository, fleetRepository)

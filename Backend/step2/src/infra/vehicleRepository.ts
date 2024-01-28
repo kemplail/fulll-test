@@ -3,21 +3,20 @@ import { Vehicle } from '../domain/vehicle'
 import { database } from './database'
 import { CreateVehicleDto } from './dtos/createVehicleDto'
 
+export type VehicleRow = {
+    ID: number
+    plate_number: string
+    location_latitude: number
+    location_longitude: number
+}
+
 export class VehicleRepository {
     async findByPlateNumber(plateNumber: string): Promise<Vehicle | undefined> {
         return new Promise((resolve, reject) => {
             database.get(
                 'SELECT * FROM vehicles WHERE plate_number = ?',
                 [plateNumber],
-                (
-                    err,
-                    row: {
-                        ID: number
-                        plate_number: string
-                        location_latitude: number
-                        location_longitude: number
-                    }
-                ) => {
+                (err, row: VehicleRow) => {
                     if (err) {
                         reject(err)
                     } else {
@@ -105,4 +104,4 @@ export class VehicleRepository {
     }
 }
 
-export const vehicleRepository = new VehicleRepository()
+export const vehicleRepository: VehicleRepository = new VehicleRepository()

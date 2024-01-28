@@ -14,11 +14,11 @@ export class Location {
         )
     }
 
-    getLatitude() {
+    getLatitude(): number {
         return this.latitude
     }
 
-    getLongitude() {
+    getLongitude(): number {
         return this.longitude
     }
 }

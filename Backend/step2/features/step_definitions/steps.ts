@@ -15,20 +15,6 @@ import { getLocationOfAVehicleHandler } from '../../src/app/handlers/getLocation
 import { CreateVehicleCommand } from '../../src/app/commands/createVehicleCommand'
 import { Fleet } from '../../src/domain/fleet'
 
-type FleetInformations = {
-    ownerId: number
-}
-
-type RegisterInformations = {
-    fleetId: number
-    plateNumber: string
-}
-
-type ParkInformations = {
-    plateNumber: string
-    location: Location
-}
-
 export const TEST_OWNER_ID: number = 99
 export const TEST_OTHER_OWNER_ID: number = 100
 export const TEST_PLATE_NUMBER: string = 'A-202'
@@ -36,11 +22,9 @@ const TEST_LOCATION_LAT: number = 49
 const TEST_LOCATION_LNG: number = -10
 
 Given('my fleet', async function () {
-    const fleetInformations: FleetInformations = {
-        ownerId: TEST_OWNER_ID,
-    }
-
-    const createFleetCommand = new CreateFleetCommand(fleetInformations.ownerId)
+    const createFleetCommand: CreateFleetCommand = new CreateFleetCommand(
+        TEST_OWNER_ID
+    )
 
     const createdFleet: Fleet =
         await createFleetHandler.handle(createFleetCommand)
@@ -49,23 +33,16 @@ Given('my fleet', async function () {
 })
 
 Given('a vehicle', async function () {
-    const plateNumber: string = TEST_PLATE_NUMBER
-
-    const createVehicleCommand = new CreateVehicleCommand(plateNumber)
+    const createVehicleCommand: CreateVehicleCommand = new CreateVehicleCommand(
+        TEST_PLATE_NUMBER
+    )
 
     await createVehicleHandler.handle(createVehicleCommand)
 })
 
 Given('I have registered this vehicle into my fleet', async function () {
-    const registerInformations: RegisterInformations = {
-        fleetId: this.fleetId,
-        plateNumber: TEST_PLATE_NUMBER,
-    }
-
-    const registerVehicleIntoFleetCommand = new RegisterVehicleIntoFleetCommand(
-        registerInformations.plateNumber,
-        registerInformations.fleetId
-    )
+    const registerVehicleIntoFleetCommand: RegisterVehicleIntoFleetCommand =
+        new RegisterVehicleIntoFleetCommand(TEST_PLATE_NUMBER, this.fleetId)
 
     await registerVehicleIntoFleetHandler.handle(
         registerVehicleIntoFleetCommand
@@ -73,28 +50,22 @@ Given('I have registered this vehicle into my fleet', async function () {
 })
 
 Given('the fleet of another user', async function () {
-    const fleetInformations: FleetInformations = {
-        ownerId: TEST_OTHER_OWNER_ID,
-    }
+    const createFleetCommand: CreateFleetCommand = new CreateFleetCommand(
+        TEST_OTHER_OWNER_ID
+    )
 
-    const createFleetCommand = new CreateFleetCommand(fleetInformations.ownerId)
-
-    const createdFleet = await createFleetHandler.handle(createFleetCommand)
+    const createdFleet: Fleet =
+        await createFleetHandler.handle(createFleetCommand)
     this.otherFleetId = createdFleet.getId()
 })
 
 Given(
     "this vehicle has been registered into the other user's fleet",
     async function () {
-        const registerInformations: RegisterInformations = {
-            fleetId: this.otherFleetId,
-            plateNumber: TEST_PLATE_NUMBER,
-        }
-
-        const registerVehicleIntoFleetCommand =
+        const registerVehicleIntoFleetCommand: RegisterVehicleIntoFleetCommand =
             new RegisterVehicleIntoFleetCommand(
-                registerInformations.plateNumber,
-                registerInformations.fleetId
+                TEST_PLATE_NUMBER,
+                this.otherFleetId
             )
 
         await registerVehicleIntoFleetHandler.handle(
@@ -108,29 +79,15 @@ Given('a location', function () {
 })
 
 Given('my vehicle has been parked into this location', async function () {
-    const parkInformations: ParkInformations = {
-        plateNumber: TEST_PLATE_NUMBER,
-        location: this.location,
-    }
-
-    const parkVehicleIntoLocationCommand = new ParkVehicleIntoLocationCommand(
-        parkInformations.plateNumber,
-        parkInformations.location
-    )
+    const parkVehicleIntoLocationCommand: ParkVehicleIntoLocationCommand =
+        new ParkVehicleIntoLocationCommand(TEST_PLATE_NUMBER, this.location)
 
     await parkVehicleIntoLocationHandler.handle(parkVehicleIntoLocationCommand)
 })
 
 When('I park my vehicle at this location', async function () {
-    const parkInformations: ParkInformations = {
-        plateNumber: TEST_PLATE_NUMBER,
-        location: this.location,
-    }
-
-    const parkVehicleIntoLocationCommand = new ParkVehicleIntoLocationCommand(
-        parkInformations.plateNumber,
-        parkInformations.location
-    )
+    const parkVehicleIntoLocationCommand: ParkVehicleIntoLocationCommand =
+        new ParkVehicleIntoLocationCommand(TEST_PLATE_NUMBER, this.location)
 
     try {
         await parkVehicleIntoLocationHandler.handle(
@@ -142,15 +99,8 @@ When('I park my vehicle at this location', async function () {
 })
 
 When('I try to register this vehicle into my fleet', async function () {
-    const registerInformations: RegisterInformations = {
-        fleetId: this.fleetId,
-        plateNumber: TEST_PLATE_NUMBER,
-    }
-
-    const registerVehicleIntoFleetCommand = new RegisterVehicleIntoFleetCommand(
-        registerInformations.plateNumber,
-        registerInformations.fleetId
-    )
+    const registerVehicleIntoFleetCommand: RegisterVehicleIntoFleetCommand =
+        new RegisterVehicleIntoFleetCommand(TEST_PLATE_NUMBER, this.fleetId)
 
     try {
         await registerVehicleIntoFleetHandler.handle(
@@ -162,15 +112,8 @@ When('I try to register this vehicle into my fleet', async function () {
 })
 
 When('I register this vehicle into my fleet', async function () {
-    const registerInformations: RegisterInformations = {
-        fleetId: this.fleetId,
-        plateNumber: TEST_PLATE_NUMBER,
-    }
-
-    const registerVehicleIntoFleetCommand = new RegisterVehicleIntoFleetCommand(
-        registerInformations.plateNumber,
-        registerInformations.fleetId
-    )
+    const registerVehicleIntoFleetCommand: RegisterVehicleIntoFleetCommand =
+        new RegisterVehicleIntoFleetCommand(TEST_PLATE_NUMBER, this.fleetId)
 
     await registerVehicleIntoFleetHandler.handle(
         registerVehicleIntoFleetCommand
@@ -178,15 +121,8 @@ When('I register this vehicle into my fleet', async function () {
 })
 
 When('I try to park my vehicle at this location', async function () {
-    const parkInformations: ParkInformations = {
-        plateNumber: TEST_PLATE_NUMBER,
-        location: this.location,
-    }
-
-    const parkVehicleIntoLocationCommand = new ParkVehicleIntoLocationCommand(
-        parkInformations.plateNumber,
-        parkInformations.location
-    )
+    const parkVehicleIntoLocationCommand: ParkVehicleIntoLocationCommand =
+        new ParkVehicleIntoLocationCommand(TEST_PLATE_NUMBER, this.location)
 
     try {
         await parkVehicleIntoLocationHandler.handle(
@@ -198,19 +134,10 @@ When('I try to park my vehicle at this location', async function () {
 })
 
 Then('this vehicle should be part of my vehicle fleet', async function () {
-    const vehicleInFleetInformations: { plateNumber: string; fleetId: number } =
-        {
-            plateNumber: TEST_PLATE_NUMBER,
-            fleetId: this.fleetId,
-        }
+    const checkIfVehicleIsPartOfAFleetQuery: CheckIfAVehicleIsPartOfAFleetQuery =
+        new CheckIfAVehicleIsPartOfAFleetQuery(this.fleetId, TEST_PLATE_NUMBER)
 
-    const checkIfVehicleIsPartOfAFleetQuery =
-        new CheckIfAVehicleIsPartOfAFleetQuery(
-            vehicleInFleetInformations.fleetId,
-            vehicleInFleetInformations.plateNumber
-        )
-
-    const fleetContainsVehicle =
+    const fleetContainsVehicle: boolean =
         await checkIfVehicleIsPartOfAFleetHandler.handle(
             checkIfVehicleIsPartOfAFleetQuery
         )
@@ -221,13 +148,13 @@ Then('this vehicle should be part of my vehicle fleet', async function () {
 Then(
     'the known location of my vehicle should verify this location',
     async function () {
-        const getLocationOfAVehicleQuery = new GetLocationOfAVehicleQuery(
-            TEST_PLATE_NUMBER
-        )
+        const getLocationOfAVehicleQuery: GetLocationOfAVehicleQuery =
+            new GetLocationOfAVehicleQuery(TEST_PLATE_NUMBER)
 
-        const locationOfTheVehicle = await getLocationOfAVehicleHandler.handle(
-            getLocationOfAVehicleQuery
-        )
+        const locationOfTheVehicle: Location | undefined =
+            await getLocationOfAVehicleHandler.handle(
+                getLocationOfAVehicleQuery
+            )
 
         assert.deepStrictEqual(locationOfTheVehicle, this.location)
     }

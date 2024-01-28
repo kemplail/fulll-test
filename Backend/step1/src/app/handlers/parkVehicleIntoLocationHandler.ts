@@ -1,3 +1,4 @@
+import { Vehicle } from '../../domain/vehicle'
 import {
     VehicleRepository,
     vehicleRepository,
@@ -12,9 +13,8 @@ export class ParkVehicleIntoLocationHandler {
     }
 
     async handle(command: ParkVehicleIntoLocationCommand) {
-        const vehicle = await this.vehicleRepository.findByPlateNumber(
-            command.plateNumber
-        )
+        const vehicle: Vehicle | undefined =
+            await this.vehicleRepository.findByPlateNumber(command.plateNumber)
 
         if (!vehicle) {
             throw new Error('Unable to retrieve the requested vehicle')
@@ -26,5 +26,5 @@ export class ParkVehicleIntoLocationHandler {
     }
 }
 
-export const parkVehicleIntoLocationHandler =
+export const parkVehicleIntoLocationHandler: ParkVehicleIntoLocationHandler =
     new ParkVehicleIntoLocationHandler(vehicleRepository)

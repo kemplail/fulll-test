@@ -3,6 +3,9 @@ import { Location } from '../domain/location'
 import { Vehicle } from '../domain/vehicle'
 import { database } from './database'
 import { CreateFleetDto } from './dtos/createFleetDto'
+import { VehicleRow } from './vehicleRepository'
+
+export type FleetRow = { ID: number; owner_id: number }
 
 export class FleetRepository {
     async findById(id: number): Promise<Fleet | undefined> {
@@ -10,7 +13,7 @@ export class FleetRepository {
             database.get(
                 'SELECT * FROM fleets WHERE id = ?',
                 [id],
-                async (err, row: { ID: number; owner_id: number }) => {
+                async (err, row: FleetRow) => {
                     if (err) {
                         reject(err)
                     } else {
@@ -67,38 +70,26 @@ export class FleetRepository {
     async getAllVehiclesOfAFleet(fleetId: number): Promise<Vehicle[]> {
         return new Promise((resolve, reject) => {
             const query =
-                'SELECT vehicles.* FROM vehicles JOIN j_vehicule_fleet ON vehicles.plate_number = j_vehicule_fleet.plate_number WHERE j_vehicule_fleet.fleet_id = ?'
+                'SELECT v.* FROM vehicles v, j_vehicule_fleet jvf WHERE v.plate_number = jvf.plate_number = jvf.fleet_id = ?'
 
-            database.all(
-                query,
-                [fleetId],
-                (
-                    err,
-                    rows: {
-                        ID: number
-                        plate_number: string
-                        location_latitude: number
-                        location_longitude: number
-                    }[]
-                ) => {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        const vehicles: Vehicle[] = rows.map(
-                            (row) =>
-                                new Vehicle(
-                                    row.ID,
-                                    row.plate_number,
-                                    new Location(
-                                        row.location_latitude,
-                                        row.location_longitude
-                                    )
+            database.all(query, [fleetId], (err, rows: VehicleRow[]) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    const vehicles: Vehicle[] = rows.map(
+                        (row) =>
+                            new Vehicle(
+                                row.ID,
+                                row.plate_number,
+                                new Location(
+                                    row.location_latitude,
+                                    row.location_longitude
                                 )
-                        )
-                        resolve(vehicles)
-                    }
+                            )
+                    )
+                    resolve(vehicles)
                 }
-            )
+            })
         })
     }
 
@@ -119,4 +110,4 @@ export class FleetRepository {
     }
 }
 
-export const fleetRepository = new FleetRepository()
+export const fleetRepository: FleetRepository = new FleetRepository()

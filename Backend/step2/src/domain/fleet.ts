@@ -26,17 +26,6 @@ export class Fleet extends Model {
         )
     }
 
-    removeVehicle(vehicleToRemove: Vehicle) {
-        const indexOfVehicleToRemove = this.vehicles.findIndex(
-            (vehicle) =>
-                vehicle.getPlateNumber() === vehicleToRemove.getPlateNumber()
-        )
-
-        if (indexOfVehicleToRemove !== -1) {
-            this.vehicles.splice(indexOfVehicleToRemove, 1)
-        }
-    }
-
     addVehicle(vehicleToAdd: Vehicle) {
         if (this.hasVehicle(vehicleToAdd)) {
             throw new Error('The vehicle is already in the fleet')

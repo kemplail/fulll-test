@@ -10,10 +10,12 @@ export class CreateFleetHandler {
     }
 
     handle(command: CreateFleetCommand) {
-        const fleet = new Fleet(command.ownerId)
+        const fleet: Fleet = new Fleet(command.ownerId)
 
         return this.fleetRepository.save(fleet)
     }
 }
 
-export const createFleetHandler = new CreateFleetHandler(fleetRepository)
+export const createFleetHandler: CreateFleetHandler = new CreateFleetHandler(
+    fleetRepository
+)

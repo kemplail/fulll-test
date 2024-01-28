@@ -5,7 +5,7 @@ const filepath = './src/infra/database.db'
 export const database: Database = createDbConnection()
 
 export function createDbConnection() {
-    const db = new Database(filepath)
+    const db: Database = new Database(filepath)
     db.exec('PRAGMA foreign_keys=ON')
 
     createTables(db)
@@ -38,7 +38,7 @@ function createTables(db: Database) {
 `,
         (err) => {
             if (err) {
-                console.log('An error appeared when creating the tables')
+                console.log('An error appeared when creating the tables ', err)
             }
         }
     )

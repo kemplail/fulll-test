@@ -1,3 +1,5 @@
+import { Fleet } from '../../domain/fleet'
+import { Vehicle } from '../../domain/vehicle'
 import { FleetRepository, fleetRepository } from '../../infra/fleetRepository'
 import {
     VehicleRepository,
@@ -18,15 +20,18 @@ export class CheckIfVehicleIsPartOfAFleetHandler {
     }
 
     async handle(command: CheckIfAVehicleIsPartOfAFleetQuery) {
-        const fleet = await this.fleetRepository.findById(command.fleetId)
+        const fleet: Fleet | undefined = await this.fleetRepository.findById(
+            command.fleetId
+        )
 
         if (!fleet) {
             throw new Error('Unable to retrieve the requested fleet')
         }
 
-        const vehicle = await this.vehicleRepository.findByPlateNumber(
-            command.vehiclePlateNumber
-        )
+        const vehicle: Vehicle | undefined =
+            await this.vehicleRepository.findByPlateNumber(
+                command.vehiclePlateNumber
+            )
 
         if (!vehicle) {
             throw new Error('Unable to retrieve the requested vehicle')
@@ -36,5 +41,5 @@ export class CheckIfVehicleIsPartOfAFleetHandler {
     }
 }
 
-export const checkIfVehicleIsPartOfAFleetHandler =
+export const checkIfVehicleIsPartOfAFleetHandler: CheckIfVehicleIsPartOfAFleetHandler =
     new CheckIfVehicleIsPartOfAFleetHandler(fleetRepository, vehicleRepository)

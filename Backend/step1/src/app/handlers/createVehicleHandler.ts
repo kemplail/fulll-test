@@ -13,10 +13,11 @@ export class CreateVehicleHandler {
     }
 
     handle(command: CreateVehicleCommand) {
-        const vehicle = new Vehicle(command.plateNumber)
+        const vehicle: Vehicle = new Vehicle(command.plateNumber)
 
         return this.vehicleRepository.save(vehicle)
     }
 }
 
-export const createVehicleHandler = new CreateVehicleHandler(vehicleRepository)
+export const createVehicleHandler: CreateVehicleHandler =
+    new CreateVehicleHandler(vehicleRepository)

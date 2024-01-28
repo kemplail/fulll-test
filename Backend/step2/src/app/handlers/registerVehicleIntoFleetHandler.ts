@@ -1,3 +1,5 @@
+import { Fleet } from '../../domain/fleet'
+import { Vehicle } from '../../domain/vehicle'
 import { CreateVehicleDto } from '../../infra/dtos/createVehicleDto'
 import { FleetRepository, fleetRepository } from '../../infra/fleetRepository'
 import {
@@ -19,15 +21,16 @@ export class RegisterVehicleIntoFleetHandler {
     }
 
     async handle(command: RegisterVehicleIntoFleetCommand) {
-        const fleet = await this.fleetRepository.findById(command.fleetId)
+        const fleet: Fleet | undefined = await this.fleetRepository.findById(
+            command.fleetId
+        )
 
         if (!fleet) {
             throw new Error('Unable to retrieve the requested fleet')
         }
 
-        let vehicle = await this.vehicleRepository.findByPlateNumber(
-            command.plateNumber
-        )
+        let vehicle: Vehicle | undefined =
+            await this.vehicleRepository.findByPlateNumber(command.plateNumber)
 
         if (!vehicle) {
             vehicle = await vehicleRepository.createVehicle(
@@ -46,5 +49,5 @@ export class RegisterVehicleIntoFleetHandler {
     }
 }
 
-export const registerVehicleIntoFleetHandler =
+export const registerVehicleIntoFleetHandler: RegisterVehicleIntoFleetHandler =
     new RegisterVehicleIntoFleetHandler(vehicleRepository, fleetRepository)

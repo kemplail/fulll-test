@@ -23,10 +23,13 @@ export class CreateVehicleHandler {
             )
         }
 
-        const createVehicleDto = new CreateVehicleDto(command.plateNumber)
+        const createVehicleDto: CreateVehicleDto = new CreateVehicleDto(
+            command.plateNumber
+        )
 
         return this.vehicleRepository.createVehicle(createVehicleDto)
     }
 }
 
-export const createVehicleHandler = new CreateVehicleHandler(vehicleRepository)
+export const createVehicleHandler: CreateVehicleHandler =
+    new CreateVehicleHandler(vehicleRepository)

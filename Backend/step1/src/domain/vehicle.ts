@@ -2,7 +2,7 @@ import { Location } from './location'
 import { Model } from './model'
 
 export class Vehicle extends Model {
-    private static counter = 0
+    private static counter: number = 0
 
     private plateNumber: string
     private location: Location | undefined

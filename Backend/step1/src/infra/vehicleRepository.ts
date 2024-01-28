@@ -24,4 +24,4 @@ export class VehicleRepository extends Repository<Vehicle> {
     }
 }
 
-export const vehicleRepository = new VehicleRepository()
+export const vehicleRepository: VehicleRepository = new VehicleRepository()

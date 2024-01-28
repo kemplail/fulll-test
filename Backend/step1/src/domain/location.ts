@@ -7,18 +7,18 @@ export class Location {
         this.longitude = longitude
     }
 
+    getLatitude(): number {
+        return this.latitude
+    }
+
+    getLongitude(): number {
+        return this.longitude
+    }
+
     isEqual(otherLocation: Location): boolean {
         return (
             this.latitude === otherLocation.latitude &&
             this.longitude === otherLocation.longitude
         )
-    }
-
-    getLatitude() {
-        return this.latitude
-    }
-
-    getLongitude() {
-        return this.longitude
     }
 }
