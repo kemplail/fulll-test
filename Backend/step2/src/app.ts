@@ -1,5 +1,4 @@
 import { program } from '@caporal/core'
-import { isNumber } from './utils/isNumber'
 import { CreateFleetCommand } from './app/commands/createFleetCommand'
 import { createFleetHandler } from './app/handlers/createFleetHandler'
 import { Fleet } from './domain/fleet'
@@ -13,16 +12,15 @@ import { parkVehicleIntoLocationHandler } from './app/handlers/parkVehicleIntoLo
 
 program
     .command('create', 'Create a fleet of vehicles')
-    .argument('<userId>', 'Fleet owner ID')
+    .argument('<userId>', 'Fleet owner ID', {
+        validator: program.NUMBER,
+    })
     .action(async ({ logger, args }) => {
         const userId: number = Number(args.userId)
 
-        if (!isNumber(userId)) {
-            logger.error('Please enter a valid ID (number).')
-            return
-        }
-
-        const createFleetCommand = new CreateFleetCommand(userId)
+        const createFleetCommand: CreateFleetCommand = new CreateFleetCommand(
+            userId
+        )
 
         const createdFleet: Fleet =
             await createFleetHandler.handle(createFleetCommand)
@@ -34,13 +32,17 @@ program
 
 program
     .command('register-vehicle', 'Create a fleet of vehicles')
-    .argument('<fleetId>', 'Fleet owner ID')
-    .argument('<vehiclePlateNumber>', 'Vehicle plate number')
+    .argument('<fleetId>', 'Fleet owner ID', {
+        validator: program.NUMBER,
+    })
+    .argument('<vehiclePlateNumber>', 'Vehicle plate number', {
+        validator: program.STRING,
+    })
     .action(async ({ logger, args }) => {
         const fleetId: number = Number(args.fleetId)
         const vehiclePlateNumber: string = String(args.vehiclePlateNumber)
 
-        const registerVehicleIntoFleetCommand =
+        const registerVehicleIntoFleetCommand: RegisterVehicleIntoFleetCommand =
             new RegisterVehicleIntoFleetCommand(vehiclePlateNumber, fleetId)
 
         await registerVehicleIntoFleetHandler.handle(
@@ -54,20 +56,26 @@ program
 
 program
     .command('localize-vehicle', 'Park a vehicle belonging to a given fleet')
-    .argument('<fleetId>', 'Fleet owner ID')
-    .argument('<vehiclePlateNumber>', 'Vehicle plate number')
-    .argument('<lat>', 'Latitude of car location')
-    .argument('<lng>', 'Longitude of car location')
+    .argument('<fleetId>', 'Fleet owner ID', { validator: program.NUMBER })
+    .argument('<vehiclePlateNumber>', 'Vehicle plate number', {
+        validator: program.STRING,
+    })
+    .argument('<lat>', 'Latitude of car location', {
+        validator: program.NUMBER,
+    })
+    .argument('<lng>', 'Longitude of car location', {
+        validator: program.NUMBER,
+    })
     .action(async ({ logger, args }) => {
         const fleetId: number = Number(args.fleetId)
         const vehiclePlateNumber: string = String(args.vehiclePlateNumber)
         const lat: number = Number(args.lat)
         const lng: number = Number(args.lng)
 
-        const checkIfVehicleIsPartOfAFleetQuery =
+        const checkIfVehicleIsPartOfAFleetQuery: CheckIfAVehicleIsPartOfAFleetQuery =
             new CheckIfAVehicleIsPartOfAFleetQuery(fleetId, vehiclePlateNumber)
 
-        const fleetContainsVehicle =
+        const fleetContainsVehicle: boolean =
             await checkIfVehicleIsPartOfAFleetHandler.handle(
                 checkIfVehicleIsPartOfAFleetQuery
             )
@@ -77,7 +85,7 @@ program
             return
         }
 
-        const parkVehicleIntoLocationCommand =
+        const parkVehicleIntoLocationCommand: ParkVehicleIntoLocationCommand =
             new ParkVehicleIntoLocationCommand(
                 vehiclePlateNumber,
                 new Location(lat, lng)
