@@ -1,4 +1,4 @@
-# Full technical test - Léo Kemplaire
+# Fulll technical test - Léo Kemplaire
 
 ## Access the different sections
 
