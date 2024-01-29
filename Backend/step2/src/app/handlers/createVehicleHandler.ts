@@ -27,7 +27,7 @@ export class CreateVehicleHandler {
             command.plateNumber
         )
 
-        return this.vehicleRepository.createVehicle(createVehicleDto)
+        return await this.vehicleRepository.createVehicle(createVehicleDto)
     }
 }
 

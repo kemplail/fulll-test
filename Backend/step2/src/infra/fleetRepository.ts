@@ -70,7 +70,7 @@ export class FleetRepository {
     async getAllVehiclesOfAFleet(fleetId: number): Promise<Vehicle[]> {
         return new Promise((resolve, reject) => {
             const query =
-                'SELECT v.* FROM vehicles v, j_vehicule_fleet jvf WHERE v.plate_number = jvf.plate_number = jvf.fleet_id = ?'
+                'SELECT v.* FROM vehicles AS v JOIN j_vehicule_fleet AS jvf ON v.plate_number = jvf.plate_number AND jvf.fleet_id = ?'
 
             database.all(query, [fleetId], (err, rows: VehicleRow[]) => {
                 if (err) {

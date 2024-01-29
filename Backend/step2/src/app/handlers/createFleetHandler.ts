@@ -9,12 +9,12 @@ export class CreateFleetHandler {
         this.fleetRepository = fleetRepository
     }
 
-    handle(command: CreateFleetCommand) {
+    async handle(command: CreateFleetCommand) {
         const createFleetDto: CreateFleetDto = new CreateFleetDto(
             command.ownerId
         )
 
-        return this.fleetRepository.createFleet(createFleetDto)
+        return await this.fleetRepository.createFleet(createFleetDto)
     }
 }
 

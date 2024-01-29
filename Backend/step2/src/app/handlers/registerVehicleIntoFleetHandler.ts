@@ -40,7 +40,7 @@ export class RegisterVehicleIntoFleetHandler {
 
         fleet.addVehicle(vehicle)
 
-        this.fleetRepository.registerVehicle(
+        await this.fleetRepository.registerVehicle(
             command.plateNumber,
             command.fleetId
         )

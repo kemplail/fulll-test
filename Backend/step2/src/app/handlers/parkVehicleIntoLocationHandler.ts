@@ -22,7 +22,7 @@ export class ParkVehicleIntoLocationHandler {
 
         vehicle.setLocation(command.location)
 
-        this.vehicleRepository.localizeVehicle(
+        await this.vehicleRepository.localizeVehicle(
             command.plateNumber,
             command.location
         )
